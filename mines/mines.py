@@ -1,5 +1,15 @@
 import inspect
 from pprint import pprint
+import os
+
+def files_in_path(path):
+    return [os.path.join(path,i) for i in os.listdir(path)]
+
+
+def path(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
 
 
 def readfile(path):
