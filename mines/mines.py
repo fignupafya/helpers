@@ -4,6 +4,15 @@ from pprint import pprint
 from collections.abc import Iterable
 
 
+def files_in_path(path):
+    return [os.path.join(path,i) for i in os.listdir(path)]
+
+
+def path(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
+
 def readfile(path):
     with open(path, "r", encoding="utf-8") as file:
         return file.read()
