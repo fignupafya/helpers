@@ -1,15 +1,7 @@
 import inspect
+import os.path
 from pprint import pprint
-import os
-
-def files_in_path(path):
-    return [os.path.join(path,i) for i in os.listdir(path)]
-
-
-def path(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
-    return path
+from collections.abc import Iterable
 
 
 def readfile(path):
@@ -19,6 +11,20 @@ def readfile(path):
 def readfile_strip(path):
     return readfile(path).strip()
 
+
+def writetofile(path,var,lines=False):
+        try:
+            if not os.path.exists(path):
+                with open(path, "w", encoding="utf-8") as file:
+                    pass
+            with open(path, "a", encoding="utf-8") as file:
+                if isinstance(var, str):
+                    file.write(i)
+                elif isinstance(var, Iterable) and lines:
+                    for i in var:
+                        file.write(f"{i}\n")
+        except Exception as e:
+            return e
 
 def file_lines(path):
     return readfile_strip(path).splitlines()
