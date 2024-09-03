@@ -1,5 +1,5 @@
 import inspect
-import os.path
+import os
 from pprint import pprint
 from collections.abc import Iterable
 
@@ -39,15 +39,25 @@ def file_lines(path):
     return readfile_strip(path).splitlines()
 
 def file_lines_strip(path):
-    return [i.strip() for i in file_lines_strip(path)]
+    return [i.strip() for i in file_lines(path)]
 
 def give_callers_path():
     caller_frame = inspect.stack()[2]
     return caller_frame.filename
-def mprint(text):
+
+def printp(text):
     print(f"{give_callers_path()}: {text}")
 
-def mpprint(data):
+def pprintp(data):
     print(give_callers_path(),end=": \n")
     pprint(data)
+
+def forprint(obj):
+    for i in obj:
+        print(i)
+
+def forprintp(obj):
+    print(give_callers_path(), end=": \n")
+    for i in obj:
+        print(i)
 
