@@ -2,7 +2,8 @@ import inspect
 import os
 from pprint import pprint
 from collections.abc import Iterable
-
+import tkinter as tk
+from tkinter import filedialog
 
 def files_in_path(path):
     return [os.path.join(path,i) for i in os.listdir(path)]
@@ -61,3 +62,16 @@ def forprintp(obj):
     for i in obj:
         print(i)
 
+
+
+def select_folder():
+    root = tk.Tk()
+    root.withdraw()
+    selected_folder = filedialog.askdirectory()
+    return selected_folder
+
+def select_file():
+    root = tk.Tk()
+    root.withdraw()
+    selected_file = filedialog.askopenfilename()
+    return selected_file
