@@ -75,3 +75,10 @@ def select_file():
     root.withdraw()
     selected_file = filedialog.askopenfilename()
     return selected_file
+
+def get_file_name_from_path(path):
+    return os.path.basename(path).rsplit('.', 1)[0]
+
+def get_file_extension_from_path(path):
+    return os.path.basename(path).rsplit('.', 1)[1]
+
