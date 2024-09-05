@@ -22,14 +22,22 @@ def readfile_strip(path):
     return readfile(path).strip()
 
 
-def writetofile(path,var,lines=False):
+def writetofile(var, path, filename="", lines=False, override=False):
+        if filename:
+            final_path = os.path.join(path,filename)
+        else:
+            final_path = path
         try:
-            if not os.path.exists(path):
-                with open(path, "w", encoding="utf-8") as file:
+            if not os.path.exists(final_path):
+                with open(final_path, "w", encoding="utf-8") as file:
                     pass
-            with open(path, "a", encoding="utf-8") as file:
+            if override:
+                style = "w"
+            else:
+                style = "a"
+            with open(final_path, style, encoding="utf-8") as file:
                 if isinstance(var, str):
-                    file.write(i)
+                    file.write(var)
                 elif isinstance(var, Iterable) and lines:
                     for i in var:
                         file.write(f"{i}\n")
