@@ -72,17 +72,34 @@ def forprintp(obj):
 
 
 
-def select_folder():
+def select_folder(title="Select Folder"):
     root = tk.Tk()
     root.withdraw()
-    selected_folder = filedialog.askdirectory()
+    selected_folder = filedialog.askdirectory(parent=root,title=title)
     return selected_folder
 
-def select_file():
+def select_file(title="Select File"):
     root = tk.Tk()
     root.withdraw()
-    selected_file = filedialog.askopenfilename()
+    selected_file = filedialog.askopenfilename(parent=root,title=title)
     return selected_file
+
+
+def select_multiple_files(title="Select Files"):
+    """Opens a file dialog and allows the user to select multiple files.
+    Returns a list of selected file paths."""
+
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+
+    selected_files = filedialog.askopenfilenames(
+        parent=root,
+        title=title,
+        multiple=True  # Allow multiple file selection
+    )
+
+    return selected_files
+
 
 def get_file_name_from_path(path):
     return os.path.basename(path).rsplit('.', 1)[0]
