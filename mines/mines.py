@@ -23,6 +23,7 @@ def readfile_strip(path):
 
 
 def writetofile(var, path, filename="", lines=False, override=False):
+
         if filename:
             final_path = os.path.join(path,filename)
         else:
@@ -44,11 +45,11 @@ def writetofile(var, path, filename="", lines=False, override=False):
         except Exception as e:
             return e
 
-def file_lines(path):
+def read_file_lines(path):
     return readfile_strip(path).splitlines()
 
-def file_lines_strip(path):
-    return [i.strip() for i in file_lines(path)]
+def read_file_lines_strip(path):
+    return [i.strip() for i in read_file_lines(path)]
 
 def give_callers_path():
     caller_frame = inspect.stack()[2]
