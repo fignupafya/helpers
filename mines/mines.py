@@ -4,6 +4,7 @@ from pprint import pprint
 from collections.abc import Iterable
 import tkinter as tk
 from tkinter import filedialog
+import re
 
 def files_in_path(path):
     return [os.path.join(path,i) for i in os.listdir(path)]
@@ -22,28 +23,28 @@ def readfile_strip(path):
     return readfile(path).strip()
 
 
-def writetofile(var, path, filename="", lines=False, override=False):
+def writetofile(var, path, filename="", iterable=False, override=False):
 
         if filename:
             final_path = os.path.join(path,filename)
         else:
             final_path = path
-        try:
-            if not os.path.exists(final_path):
-                with open(final_path, "w", encoding="utf-8") as file:
-                    pass
-            if override:
-                style = "w"
+        if not os.path.exists(final_path):
+            with open(final_path, "w", encoding="utf-8") as file:
+                pass
+        if override:
+            style = "w"
+        else:
+            style = "a"
+        with open(final_path, style, encoding="utf-8") as file:
+            if isinstance(var, str):
+                file.write(var)
+            elif isinstance(var, Iterable) and iterable:
+                for i in var:
+                    file.write(f"{i}\n")
             else:
-                style = "a"
-            with open(final_path, style, encoding="utf-8") as file:
-                if isinstance(var, str):
-                    file.write(var)
-                elif isinstance(var, Iterable) and lines:
-                    for i in var:
-                        file.write(f"{i}\n")
-        except Exception as e:
-            return e
+                raise "Error"
+
 
 def read_file_lines(path):
     return readfile_strip(path).splitlines()
@@ -108,3 +109,23 @@ def get_file_name_from_path(path):
 def get_file_extension_from_path(path):
     return os.path.basename(path).rsplit('.', 1)[1]
 
+def cwd():
+    return os.getcwd()
+
+def remove_extra_lines(var,itreable=False):
+    if itreable:
+        final= []
+        prev=False
+        for i in var:
+            if not re.sub("\n\s","",i):
+                if prev:
+                    continue
+                else:
+                    prev = True
+            else:
+                prev = False
+            final.append(i.replace("\n"," ").strip())
+        print(final)
+        return final
+    else:
+        return re.sub("(\s*\n\s*){2,}","\n",var)
