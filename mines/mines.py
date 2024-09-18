@@ -37,13 +37,11 @@ def writetofile(var, path, filename="", iterable=False, override=False):
         else:
             style = "a"
         with open(final_path, style, encoding="utf-8") as file:
-            if isinstance(var, str):
-                file.write(var)
-            elif isinstance(var, Iterable) and iterable:
+            if iterable:
                 for i in var:
                     file.write(f"{i}\n")
             else:
-                raise "Error"
+                file.write(var)
 
 
 def read_file_lines(path):
@@ -109,8 +107,7 @@ def get_file_name_from_path(path):
 def get_file_extension_from_path(path):
     return os.path.basename(path).rsplit('.', 1)[1]
 
-def cwd():
-    return os.getcwd()
+cd = os.getcwd()
 
 def remove_extra_lines(var,itreable=False):
     if itreable:
@@ -129,3 +126,19 @@ def remove_extra_lines(var,itreable=False):
         return final
     else:
         return re.sub("(\s*\n\s*){2,}","\n",var)
+
+def filter_non_empty(list, filter_white_space = True, filter_newline = True,strip = False):
+    if filter_newline and filter_newline:
+        pattern = "^[\n\s]*$"
+    elif filter_newline:
+        pattern = "^[\n]*$"
+    elif filter_white_space:
+        pattern = "^[\s]*$"
+    else:
+        pattern = ""
+    if strip:
+        return [i.strip() for i in list if not re.search(pattern,i)]
+    else:
+        return [i for i in list if not re.search(pattern,i)]
+
+
