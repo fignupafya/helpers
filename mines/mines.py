@@ -128,7 +128,7 @@ def remove_extra_lines(var,itreable=False):
         return re.sub("(\s*\n\s*){2,}","\n",var)
 
 def filter_non_empty(list, filter_white_space = True, filter_newline = True,strip = False):
-    if filter_newline and filter_newline:
+    if filter_white_space and filter_newline:
         pattern = "^[\n\s]*$"
     elif filter_newline:
         pattern = "^[\n]*$"
