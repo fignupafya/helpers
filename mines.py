@@ -5,6 +5,8 @@ from collections.abc import Iterable
 import tkinter as tk
 from tkinter import filedialog
 import re
+from PyPDF2 import PdfReader, PdfWriter
+
 
 def files_in_path(path):
     return [os.path.join(path,i) for i in os.listdir(path)]
@@ -142,3 +144,21 @@ def filter_non_empty(list, filter_white_space = True, filter_newline = True,stri
         return [i for i in list if not re.search(pattern,i)]
 
 
+def split_pdf(input_pdf, output_dir, pages_per_split=250):
+    # Create the output directory if it doesn't exist
+    path(output_dir)
+
+    # Open the input PDF
+    pdf_reader = PdfReader(input_pdf)
+    total_pages = len(pdf_reader.pages)
+
+    # Split the PDF
+    for i in range(0, total_pages, pages_per_split):
+        pdf_writer = PdfWriter()
+        for j in range(i, min(i + pages_per_split, total_pages)):
+            pdf_writer.add_page(pdf_reader.pages[j])
+
+        # Save the split PDF
+        output_pdf_path = os.path.join(output_dir, f"{os.path.basename(input_pdf).rsplit('.',1)[0]}_split_{i // pages_per_split + 1}.pdf")
+        with open(output_pdf_path, "wb") as output_pdf_file:
+            pdf_writer.write(output_pdf_file)
