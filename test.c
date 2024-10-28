@@ -453,24 +453,69 @@ int	main(void)
 	printf("\n\nft_strdup\n");
 	printf("'%s'   -   '%s'\n",ft_strdup((strdup_test)),strdup((strdup_test)));
 
-	
 
 
 
 
 
-	// printf("Original : %p", calloc(3,2147483647));
-	// printf("\nMine     : %p", ft_calloc(3,2147483647));
+
+
+
+	char substr_test[]="123deneme09876";
+	printf("\n\nft_substr\n");
+	printf("'%s'   -   '%s'\n",substr_test,ft_substr(substr_test,3,5));
+
+
+
+
+
+	char strjoin_test1[]="123dene";
+	char strjoin_test2[]="me09876";
+	printf("\n\nft_strjoin\n");
+	printf("'%s' '%s'\n",strjoin_test1,strjoin_test2);
+	printf("'%s'\n",ft_strjoin(strjoin_test1,strjoin_test2));
+
+
+
+
+
+
+	char strtrim_test1[]="!)!!!)!)!)!)!)---alsjhdajksld!)'^)!)!)')a";
+	char strtrim_test2[]="kasd!)!!!)!)!)!)!)---alsjhdajksld!)'^)!)!)')";
+	char strtrim_test3[]="kasd!)!!!)!)!)!)!)---alsjhdajksld!)'^)!)!)')kjasnd";
+	char strtrim_test4[]="!)!!!)!)!)!)!)---alsjhdajksld!)'^)!)!)')";
+	char strtrim_test_set[]="!)'";
+	printf("\n\nft_strtrim\n");
+	printf("'%s'\n'%s'\n\n",strtrim_test1,ft_strtrim(strtrim_test1,strtrim_test_set));
+	printf("'%s'\n'%s'\n\n",strtrim_test2,ft_strtrim(strtrim_test2,strtrim_test_set));
+	printf("'%s'\n'%s'\n\n",strtrim_test3,ft_strtrim(strtrim_test3,strtrim_test_set));
+	printf("'%s'\n'%s'\n\n",strtrim_test4,ft_strtrim(strtrim_test4,strtrim_test_set));
+
+
+
+
+
+
+
+	char split_test[]="123deneme09876";
+	char** splitted = ft_split(split_test,'0');
+	printf("\n\nft_split\n");
+	printf("'%s'\n",split_test);
+	printf("'%s'   -   '%s'   -   %p\n",splitted[0],splitted[1],splitted[2]);
+
+
+
+
+
+
 	printf("\nResult     : %s", ft_itoa(-572));
-	printf("\nResult     : %s", ft_split(test3, ' ')[0]);
-	printf("\nResult     : %s", ft_split(test3, ' ')[1]);
-	printf("\nResult     : %p", ft_split(test3, ' ')[2]);
-	// printf("\nResult     : %s", ft_strmapi(test2, test_func));
-	ft_striteri(test2, test_func);
-
-
-
-
+	printf("\nResult     : %s", ft_itoa(572));
+	printf("\nResult     : %s", ft_itoa(0));
+	printf("\nResult     : %s", ft_itoa(5));
+	printf("\nResult     : %s", ft_itoa(-5));
+	printf("\nResult     : %s", ft_itoa(-2147483647));
+	printf("\nResult     : %s", ft_itoa(2147483647));
+	printf("\nResult     : %s", ft_itoa(-2147483648));
 
 	return (0);
 }
