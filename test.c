@@ -3,11 +3,89 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h> 
+#include <stdlib.h>
+#include <fcntl.h>
+
+void* f_wrapper(void* str)
+{
+	char* new_str = strdup((char*)str);
+	new_str[0] = '!';
+	return ((void*)new_str);
+}
+
+void del_wrapper(void* content)
+{
+	printf("\nDeleting content: %s\n",content);
+	free(content);
+}
+
+void test_func_lstiter(void* character)
+{
+	char* tmp = (char*)character;
+	tmp[0]='*';
+	tmp[3]='*';
+}
+
+void print_node(t_list* node)
+{
+	printf("Node adress : %p,    Next address : %p,    Content: %s",node,node->next,node->content);
+}
+
+void print_list(t_list** lst)
+{
+	t_list* tmp = *lst;
+	if(tmp==NULL)
+		printf("Empty list.\n");
+	while(tmp!=NULL)
+	{
+		print_node(tmp);
+		printf("\n");
+		tmp = tmp->next;
+	}
+}
+
+
+
+t_list** create_list(t_list* (*create_node)(void*),void(*append)(t_list**, t_list*))
+{
+
+	char* temp_content;
+	t_list* temp_node;
+	t_list** lst= malloc(sizeof(t_list*));
+	*lst = NULL;
+	
+	for (int i=0;i<5;i++)
+	{
+		temp_content = malloc(10);
+		for (int k=0;k<8;k++)
+		{
+
+			temp_content[k] = 'a'+k;
+		}
+		temp_content[8]=i+48;
+		temp_content[9]=0;
+		temp_node = create_node(temp_content);
+		append(lst,temp_node);
+	}
+	return(lst);  
+}
+
 
 void	test_func(unsigned int a, char *b)
 {
 	printf("%d %c\n", a, *b);
 }
+
+
+char strmapi_test_func(unsigned int num,char character)
+{
+	return toupper(character);
+}
+void ft_striteri_test_func(unsigned int num,char* character)
+{
+	*character = toupper(*character);
+}
+
 
 int	main(void)
 {
@@ -103,6 +181,13 @@ int	main(void)
 	char atoi_test11_2[]="  -12345";
 	char atoi_test12_2[]="  --12345";
 	char atoi_test13_2[]="  -123-45";
+
+
+	char atoi_test_NEW[]="  -2147483649";
+	char atoi_test_NEW2[]="  2147483649";
+
+
+	
 
 
 	printf("\n\nft_isalpha\n");
@@ -435,6 +520,9 @@ int	main(void)
 	printf("%d %d\n",ft_atoi(atoi_test12_2),atoi(atoi_test12_2));
 	printf("%d %d\n",ft_atoi(atoi_test13_2),atoi(atoi_test13_2));
 
+	printf("%d %d\n",ft_atoi(atoi_test_NEW),atoi(atoi_test_NEW));
+	printf("%d %d\n",ft_atoi(atoi_test_NEW2),atoi(atoi_test_NEW2));
+
 
 
 	printf("\n\nft_calloc\n");
@@ -507,7 +595,7 @@ int	main(void)
 
 
 
-
+	printf("\n\nft_itoa");
 	printf("\nResult     : %s", ft_itoa(-572));
 	printf("\nResult     : %s", ft_itoa(572));
 	printf("\nResult     : %s", ft_itoa(0));
@@ -516,6 +604,108 @@ int	main(void)
 	printf("\nResult     : %s", ft_itoa(-2147483647));
 	printf("\nResult     : %s", ft_itoa(2147483647));
 	printf("\nResult     : %s", ft_itoa(-2147483648));
+
+
+
+
+
+
+
+	char strmapi_test[]=" 123deneme09876";
+	char* new_strmapi_test = ft_strmapi(strmapi_test,strmapi_test_func);
+	printf("\n\nft_strmapi\n");
+	printf("'%s'    -    '%s'\n",strmapi_test,new_strmapi_test);
+
+
+	char ft_striteri_test[]=" 123deneme09876";
+	printf("\n\nft_striteri\n");
+	printf("'%s'\n",ft_striteri_test);
+	ft_striteri(ft_striteri_test,ft_striteri_test_func);
+	printf("'%s'\n",ft_striteri_test);
+
+
+
+
+	
+	int ft_putchar_fd_fd = open("ft_putchar_fd.txt", O_WRONLY | O_CREAT , 0666);
+	ft_putchar_fd('K',ft_putchar_fd_fd);
+	close(ft_putchar_fd_fd);
+
+
+
+	
+	int ft_putstr_fd_fd = open("ft_putstr_fd.txt", O_WRONLY | O_CREAT , 0666);
+	char ft_putstr_fd_test[]= "deneme stringi";
+	ft_putstr_fd(ft_putstr_fd_test,ft_putstr_fd_fd);
+	close(ft_putstr_fd_fd);
+
+
+	
+	
+	int ft_putendl_fd_fd = open("ft_putendl_fd.txt", O_WRONLY | O_CREAT , 0666);
+	char ft_putendl_fd_test[]= "deneme stringi";
+	ft_putendl_fd(ft_putendl_fd_test,ft_putendl_fd_fd);
+	close(ft_putendl_fd_fd);
+
+	
+	
+	int ft_putnbr_fd_fd = open("ft_putnbr_fd.txt", O_WRONLY | O_CREAT , 0666);
+	ft_putnbr_fd(5,ft_putnbr_fd_fd);
+	ft_putchar_fd('\n',ft_putnbr_fd_fd);
+	ft_putnbr_fd(-5,ft_putnbr_fd_fd);
+	ft_putchar_fd('\n',ft_putnbr_fd_fd);
+	ft_putnbr_fd(0,ft_putnbr_fd_fd);
+	ft_putchar_fd('\n',ft_putnbr_fd_fd);
+	ft_putnbr_fd(2147483647,ft_putnbr_fd_fd);
+	ft_putchar_fd('\n',ft_putnbr_fd_fd);
+	ft_putnbr_fd(-2147483647,ft_putnbr_fd_fd);
+	ft_putchar_fd('\n',ft_putnbr_fd_fd);
+	ft_putnbr_fd(-2147483648,ft_putnbr_fd_fd);
+	close(ft_putendl_fd_fd);
+
+	
+	
+	
+	/////BONUS!!!!
+	
+	printf("\n\nBONUS:\n");
+	t_list** list1=create_list(ft_lstnew,ft_lstadd_front);
+	t_list** list2=create_list(ft_lstnew,ft_lstadd_back);
+
+
+	printf("\n\nlstaddfront:\n");
+	print_list(list1);
+
+
+
+	printf("\n\nft_lstsize(*list1) : %d\n",ft_lstsize(*list1));
+
+
+	printf("\n\nlstaddback:\n");
+	print_list(list2);
+
+
+	printf("\n\nlstiter:\n");
+	print_list(list1);
+	ft_lstiter(*list1,test_func_lstiter);
+	printf("\n");
+	print_list(list1);
+
+
+	printf("\n\nlstclear:\n");
+	ft_lstclear(list1,del_wrapper);
+	print_list(list1);
+
+
+	printf("\n\nlstmap:\n");
+	t_list** tmpppp = malloc(sizeof(t_list*));
+	printf("\noriginal:\n");
+	print_list(list2);
+	
+	printf("\ncopied:\n");
+	*tmpppp = ft_lstmap(*list2,f_wrapper,del_wrapper);
+	print_list(tmpppp);
+	
 
 	return (0);
 }
